@@ -1,15 +1,11 @@
-levels = """7 6 4 2 1
-1 2 7 8 9
-9 7 6 2 1
-1 3 2 4 5
-8 6 4 4 1
-1 3 6 7 9"""
+levels = """"""
 
-levelList = levels.splitlines()
+
+
 
 def check(levelItems):
     
-    safe = []
+    gapCheck = []
 
     #Checks if the list is assending or decending
     asc = str(sorted(levelItems))[1:-1:] #strip of []
@@ -23,24 +19,28 @@ def check(levelItems):
         itemCount = len(levelItems)
         for i in range(0, itemCount):
             
-            if i < itemCount-1:
+            if i < itemCount - 1:
                 x = int(levelItems[i])
                 y = int(levelItems[i+1])
+                
                 if x >= y:
                     result = x-y
                 else:
                     result = y-x
-                if result <=3 and result > 0:
-                    safe.append("Yes")
+                
+                if result > 3 or result == 0:
+                    return False
 
-        fail = safe.count("Yes")
-        if fail == itemCount -1:
-            print("Safe")
-        else:
-            print("Unsafe")
+        return True
     else:
-        print("Unsafe")
+        return False
+    
+with open('Day2_Input.txt', newline='') as csvfile:
+    levelList  = csvfile.readlines()
 
+safeCount = 0
 for level in levelList:
-    print(level)
-    check(level.split(" "))
+    if(check(level.rstrip().split(" ")) == True):
+        safeCount = safeCount+1
+
+print(safeCount)
